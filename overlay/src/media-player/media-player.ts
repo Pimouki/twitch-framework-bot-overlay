@@ -1,5 +1,6 @@
 import "../style.scss";
 import "./media-player.scss";
+
 import { io, Socket } from "socket.io-client";
 import {
   ClientToServerEvents,
@@ -14,17 +15,20 @@ declare global {
     Twitch: any;
   }
 }
-async function playSound(fileName: string): Promise<number> {
-  const audio = new Audio(`/sounds/${fileName}`);
-  await audio.play();
-  return new Promise((resolve) =>
-    setTimeout(() => resolve(audio.duration), audio.duration * 1000 * 0.8)
-  );
-}
 
 const mediaContainer = document.getElementById(
   "mediaContainer"
 ) as HTMLDivElement;
+
+async function playSound(fileName: string): Promise<number> {
+  const audio = new Audio(`/sounds/${fileName}`);
+  audio.controls = true;
+  await audio.play();
+  mediaContainer.appendChild(audio);
+  return new Promise((resolve) =>
+    setTimeout(() => resolve(audio.duration), audio.duration * 1000 * 0.8)
+  );
+}
 
 async function playVideo(fileName: string, flip: boolean): Promise<number> {
   if (!mediaContainer) return 0;
@@ -86,6 +90,7 @@ function init() {
       if (duration > 7) break;
     }
   });
+
   socket.on("playVideo", async (data) => {
     for (let i = 0; i < data.times; i++) {
       const duration = await playVideo(data.fileName, i % 2 === 1);
