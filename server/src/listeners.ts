@@ -16,6 +16,7 @@ import { SpotifyCommands } from "./command-listeners/spotify-commands";
 import { HelpCommands } from "./command-listeners/help-commands";
 import { SpotifyRewardCommands } from "./reward-listeners/spotify-commands";
 import { CoucouRewardCommands } from "./reward-listeners/coucou-commands";
+import { ChantIaCommands } from "./reward-listeners/chant-ia-commands";
 import { SkipRewardCommands } from "./reward-listeners/skip-commands";
 
 export const commandListeners: CommandListener[] = [
@@ -28,6 +29,7 @@ export const rewardListeners: RewardListener[] = [
   SpotifyRewardCommands,
   SkipRewardCommands, 
   CoucouRewardCommands,
+  ChantIaCommands,
 ];
 
 export type ServerSocket = Server<
