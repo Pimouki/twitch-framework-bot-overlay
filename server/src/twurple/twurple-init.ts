@@ -28,6 +28,7 @@ async function getToken(userId: string): Promise<AccessToken> {
 }
 
 async function saveToken(token: AccessToken, userId: string) {
+  console.log(token)
   return await fs.writeFile(
     `./${STORAGE_FOLDER}/twurple_token_${userId}.json`,
     JSON.stringify(token, null, 4),
@@ -42,17 +43,17 @@ async function refresh(clientId: string, clientSecret: string, userId: string) {
     onRefresh: (userId, token) => saveToken(token, userId),
   });
 }
-
-export async function TwurpleInit(
-  clientId: string,
-  clientSecret: string,
-  userId: string
-): Promise<{
+export type TwurpleInitProps = {
   eventSub: EventSubWsListener;
   chatClient: ChatClient;
   apiClient: ApiClient;
   pubSubClient: PubSubClient;
-}> {
+};
+export async function TwurpleInit(
+  clientId: string,
+  clientSecret: string,
+  userId: string
+): Promise<TwurpleInitProps> {
   let token: AccessToken;
   try {
     token = await getToken(userId);
