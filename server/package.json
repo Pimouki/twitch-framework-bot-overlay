@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "server": "tsc && node ./dist/index.js",
-    "bot-create-token": "tsc && node ./dist/bot-create-token.js",
+    "bort-create-token": "tsc && node ./dist/bot-create-token.js",
     "broadcaster-create-token": "tsc && node ./dist/broadcaster-create-token.js",
     "watch": "tsc --noEmit --watch "
   },

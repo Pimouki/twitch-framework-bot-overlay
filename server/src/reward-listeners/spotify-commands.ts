@@ -15,6 +15,7 @@ export const SpotifyRewardCommands: RewardListener = async ({
     obs,
     spotify,
   }) => {
+    console.log(rewardId);
     if(rewardId !== "6ccd6826-ebbf-4813-8076-0370c0115d88"){
         return false;
     }

@@ -1,8 +1,9 @@
-import { PlayerWithHeroStats } from "./shared-game";
+// import { PlayerWithHeroStats } from "./shared-game";
 type mediaOption = {
   fileName: string;
   times: number;
-};
+}; 
+
 export type MediasType = "sounds" | "videos";
 export type MediasChoice = { type: MediasType; fileName: string };
 type ClipInfo = { id: string; duration };

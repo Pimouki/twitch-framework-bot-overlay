@@ -10,12 +10,18 @@ export const HelpCommands: CommandListener = async ({
   args,
   messageCount,
 }) => {
-  if (messageCount % 50 === 0) {
-    const rand = pickRandomOne(["Hello je suis un bot", "J'aime le code"]);
+
+  if (messageCount % 5 === 0) {
+    const rand = pickRandomOne(["Hihihi.", "J'aime les bits.", "Vivement qu'on me bits.", "Bonjours a vous tihihihi.", "Pourquoi je parle?.", "Ok pourquoi pas.", "ALLO.", "MESSAGE ULTRA IMPORTANT."]);
     await chatBotClient.say(channel, rand);
   }
   if (command === "discord") {
+    const rand = pickRandomOne(["https://discord.com/invite/6r8JK6g", "Faux essaye encore", "CHOUCROUTE" ])
+    await chatBotClient.say(channel, rand);
   }
-  if (command === "github") {
+  if (command === "kikiks") {
+    const rand = pickRandomOne(["Mon meilleur amis", "Le plus beau des viewers , merveilleuse personne , mon meilleur ami de la vie et super fort dans les jeux video."])
+    await chatBotClient.say(channel, rand);
   }
+
 };

@@ -52,12 +52,13 @@ export async function appInit([
         .map((p) => (p.type === "text" ? p.text : ""));
       const parsedText = extractEmotes.join(" ");
       const [first, ...args] = parsedText.split(" ");
-      let command = first.startsWith("!")
+      let command = first.startsWith("")
         ? first.replace(/!/g, "").toLowerCase()
         : "";
 
       command = command.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       command = alias(command);
+      messageCount++;
       for (let i = 0; i < commandListeners.length; i++) {
         const cancelNext = await commandListeners[i]({
           channel,
@@ -75,7 +76,7 @@ export async function appInit([
           socket,
           obs,
           spotify,
-          messageCount: ++messageCount,
+          messageCount: messageCount,
         }).catch((e) => console.error(e));
         if (typeof cancelNext === "boolean" && cancelNext) break;
       }
@@ -92,6 +93,7 @@ export async function appInit([
      *  }
      */
     for (let i = 0; i < rewardListeners.length; i++) {
+      console.log("test");
       const cancelNext = await rewardListeners[i]({
         channel: TWITCH_CHANNEL,
         user: userLower,

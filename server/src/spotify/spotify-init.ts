@@ -151,6 +151,7 @@ export async function spotifyInit(): Promise<SpotifyInstance> {
 
   const addQueue = async (search: string): Promise<SpotifyTrack> => {
     let find: SpotifyTrack;
+  
     try {
       const url = new URL(search);
       const trackId = url.pathname.replace("/track/");
