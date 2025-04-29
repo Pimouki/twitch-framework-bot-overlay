@@ -1,4 +1,4 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { BaseApi } from '../BaseApi';
 import { HelixGoal } from './HelixGoal';
 /**

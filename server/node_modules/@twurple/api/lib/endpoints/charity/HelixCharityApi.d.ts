@@ -1,6 +1,6 @@
-import type { UserIdResolvable } from '@twurple/common';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type UserIdResolvable } from '@twurple/common';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixCharityCampaign } from './HelixCharityCampaign';
 import { HelixCharityCampaignDonation } from './HelixCharityCampaignDonation';

@@ -1,9 +1,9 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixEventData } from '../../interfaces/endpoints/generic.external';
 import { type HelixHypeTrainEventData, type HelixHypeTrainEventType } from '../../interfaces/endpoints/hypeTrain.external';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixHypeTrainEvent } from './HelixHypeTrainEvent';
 /**

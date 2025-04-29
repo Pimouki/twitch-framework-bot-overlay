@@ -1,4 +1,4 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixBitsLeaderboardQuery } from '../../interfaces/endpoints/bits.input';
 import { BaseApi } from '../BaseApi';
 import { HelixBitsLeaderboard } from './HelixBitsLeaderboard';

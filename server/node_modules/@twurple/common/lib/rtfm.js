@@ -14,7 +14,7 @@ function rtfm(pkg, name, idKey) {
             };
         Object.defineProperty(clazz.prototype, Symbol.for('nodejs.util.inspect.custom'), {
             value: fn,
-            enumerable: false
+            enumerable: false,
         });
     };
 }

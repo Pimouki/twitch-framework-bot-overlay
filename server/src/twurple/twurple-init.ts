@@ -37,11 +37,12 @@ async function saveToken(token: AccessToken, userId: string) {
 }
 
 async function refresh(clientId: string, clientSecret: string, userId: string) {
-  return new RefreshingAuthProvider({
+  const provider = new RefreshingAuthProvider({
     clientId,
     clientSecret,
-    onRefresh: (userId, token) => saveToken(token, userId),
   });
+  provider.onRefresh((userId, token) => saveToken(token, userId));
+  return provider;
 }
 export type TwurpleInitProps = {
   eventSub: EventSubWsListener;
@@ -115,6 +116,8 @@ export async function TwurpleInit(
   await chatClient.connect();
 
   const eventSub = new EventSubWsListener({ apiClient });
+
+  await eventSub.start();
 
   const pubSubClient = new PubSubClient({ authProvider });
   console.log("connected to twitch");

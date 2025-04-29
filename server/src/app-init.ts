@@ -2,7 +2,7 @@ import { SERVER_PORT, TWITCH_BROADCASTER_ID, TWITCH_CHANNEL } from "./configs";
 import { ArrayUtils } from "jcv-ts-utils";
 import { OnExitMessage, OnOnlineMessage } from "./welcome-messages";
 import { socketClients } from "./socket/socket-clients";
-import { PrivateMessage } from "@twurple/chat";
+import { ChatMessage, extractMessageText } from "@twurple/chat";
 import { alias } from "./alias";
 import { commandListeners, rewardListeners, ServerSocket } from "./listeners";
 import { Server } from "socket.io";
@@ -10,6 +10,7 @@ import { httpServer } from "./server";
 import { TwurpleInitProps } from "./twurple/twurple-init";
 import OBSWebSocket from "obs-websocket-js";
 import { SpotifyInstance } from "./spotify/spotify-types";
+import { EventSubWsListener } from "@twurple/eventsub-ws";
 const socket: ServerSocket = new Server(httpServer, {
   cors: {
     origin: "*",
@@ -22,7 +23,7 @@ const usersBlacklist = ["moobot"].map((m) => m.toLowerCase());
 
 let messageCount = 0;
 export async function appInit([
-  { chatClient: chatBroadcasterClient, apiClient, pubSubClient },
+  { eventSub, chatClient: chatBroadcasterClient, apiClient, pubSubClient },
   { chatClient: chatBotClient, apiClient: apiBotClient },
   obs,
   spotify,
@@ -42,15 +43,12 @@ export async function appInit([
       channel: string,
       user: string,
       text: string,
-      meta: PrivateMessage
+      meta: ChatMessage
     ) => {
       if (meta.isRedemption) return;
       const userLower = user.toLowerCase();
       if (usersBlacklist.includes(userLower)) return;
-      const extractEmotes = meta
-        .parseEmotes()
-        .map((p) => (p.type === "text" ? p.text : ""));
-      const parsedText = extractEmotes.join(" ");
+      const parsedText = extractMessageText(meta.text);
       const [first, ...args] = parsedText.split(" ");
       let command = first.startsWith("")
         ? first.replace(/!/g, "").toLowerCase()
@@ -83,17 +81,31 @@ export async function appInit([
     }
   );
 
+  eventSub.onChannelRedemptionAdd(TWITCH_BROADCASTER_ID, async (message) => {
+    const userLower = message.userName.toLowerCase();
+    for (let i = 0; i < rewardListeners.length; i++) {
+      const cancelNext = await rewardListeners[i]({
+        channel: TWITCH_CHANNEL,
+        user: userLower,
+        rewardTitle: message.rewardTitle,
+        rewardId: message.rewardId,
+        userId: message.userId,
+        message: message.input, // changement ici
+        chatBotClient,
+        chatBroadcasterClient,
+        apiClient,
+        apiBotClient,
+        socket,
+        obs,
+        spotify,
+      }).catch((e) => console.error(e));
+      if (typeof cancelNext === "boolean" && cancelNext) break;
+    }
+  });
+/*
   pubSubClient.onRedemption(TWITCH_BROADCASTER_ID, async (message) => {
     const userLower = message.userName.toLowerCase();
-    /*
-     * Plutot que de boucler sur les fonctions et faire la vérif
-     * Passer par un mapping de l'ID de la reward et la fonction
-     *  {
-     *    "REWARD_ID" : COMMANDFUNCTION
-     *  }
-     */
     for (let i = 0; i < rewardListeners.length; i++) {
-      console.log("test");
       const cancelNext = await rewardListeners[i]({
         channel: TWITCH_CHANNEL,
         user: userLower,
@@ -112,6 +124,7 @@ export async function appInit([
       if (typeof cancelNext === "boolean" && cancelNext) break;
     }
   });
+*/
   [
     "SIGHUP",
     "SIGINT",

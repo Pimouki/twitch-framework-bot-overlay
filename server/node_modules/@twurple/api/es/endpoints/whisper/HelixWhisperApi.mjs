@@ -42,8 +42,8 @@ let HelixWhisperApi = class HelixWhisperApi extends BaseApi {
             scopes: ['user:manage:whispers'],
             query: createWhisperQuery(from, to),
             jsonBody: {
-                message
-            }
+                message,
+            },
         });
     }
 };

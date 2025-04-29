@@ -1,6 +1,6 @@
 import { __decorate } from "tslib";
 import { rtfm } from '@twurple/common';
-import { createSearchChannelsQuery } from "../../interfaces/endpoints/search.external.mjs";
+import { createSearchChannelsQuery, } from "../../interfaces/endpoints/search.external.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { createPaginatedResult } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
@@ -36,8 +36,8 @@ let HelixSearchApi = class HelixSearchApi extends BaseApi {
             url: 'search/categories',
             query: {
                 query,
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResult(result, HelixGame, this._client);
     }
@@ -50,8 +50,8 @@ let HelixSearchApi = class HelixSearchApi extends BaseApi {
         return new HelixPaginatedRequest({
             url: 'search/categories',
             query: {
-                query
-            }
+                query,
+            },
         }, this._client, data => new HelixGame(data, this._client));
     }
     /**
@@ -68,8 +68,8 @@ let HelixSearchApi = class HelixSearchApi extends BaseApi {
             url: 'search/channels',
             query: {
                 ...createSearchChannelsQuery(query, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return createPaginatedResult(result, HelixChannelSearchResult, this._client);
     }
@@ -84,7 +84,7 @@ let HelixSearchApi = class HelixSearchApi extends BaseApi {
     searchChannelsPaginated(query, filter = {}) {
         return new HelixPaginatedRequest({
             url: 'search/channels',
-            query: createSearchChannelsQuery(query, filter)
+            query: createSearchChannelsQuery(query, filter),
         }, this._client, data => new HelixChannelSearchResult(data, this._client));
     }
 };

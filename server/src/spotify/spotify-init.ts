@@ -14,7 +14,7 @@ import {
 } from "./spotify-types";
 
 const crypto = require("node:crypto");
-const URL = require("node:url");
+const { URL } = require("node:url");
 const open = require("open");
 let _spotifyCode: string;
 const spotifyAccountUri = "https://accounts.spotify.com";
@@ -32,6 +32,7 @@ async function getToken(): Promise<SpotifyToken> {
 }
 
 async function saveToken(token: SpotifyToken) {
+  token.obtained_at = Date.now();
   return await fs.writeFile(
     `./${STORAGE_FOLDER}/spotify_token.json`,
     JSON.stringify(token, null, 4),
@@ -79,9 +80,11 @@ export async function refreshToken(token: SpotifyToken) {
         Buffer.from(SPOTIFY_CLIENT + ":" + SPOTIFY_SECRET).toString("base64"),
     },
   })
-    .then((blob) => blob.json())
-    .catch((err) => console.log(err));
-  await saveToken({ ...token, ...refreshToken });
+    .then((blob) => blob.json() )
+    .catch((err) => console.log(err)) as unknown as SpotifyToken;
+  
+  token.access_token = refreshToken.access_token;
+  await saveToken(token);
 }
 export async function spotifyInit(): Promise<SpotifyInstance> {
   let token: SpotifyToken;
@@ -102,7 +105,7 @@ export async function spotifyInit(): Promise<SpotifyInstance> {
     );
     console.log("waiting for spotify authentification");
     const code = await getSpotifyCode();
-    token = await fetch(`${spotifyAccountUri}/api/token`, {
+    token = await (fetch(`${spotifyAccountUri}/api/token`, {
       method: "POST",
       body: makeFormBody({
         grant_type: "authorization_code",
@@ -118,47 +121,53 @@ export async function spotifyInit(): Promise<SpotifyInstance> {
       },
     })
       .then((blob) => blob.json())
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))) as unknown as SpotifyToken;
     await saveToken(token);
   }
   console.log("Spotify success authentification");
   setInterval(async () => {
     console.log("Spotify refresh token");
-
     await refreshToken(await getToken());
   }, 3500 * 1000);
 
-  const getCurrentPlay = async (): Promise<SpotifyCurrentPlay> => {
-    return fetch(`${spotifyApiUri}/me/player/currently-playing`, {
+  const getCurrentPlay = (async (): Promise<SpotifyCurrentPlay> => {
+    return (fetch(`${spotifyApiUri}/me/player/currently-playing`, {
       headers: await getAuthHeader(),
-    }).then((blob) => blob.json());
-  };
+    }).then((blob) => blob.json())) as unknown as SpotifyCurrentPlay;
+  });
 
   const skipPlayer = async (): Promise<void> => {
-    return fetch(`${spotifyApiUri}/me/player/next`, {
+    fetch(`${spotifyApiUri}/me/player/next`, {
       headers: await getAuthHeader(),
       method: "POST",
     })
       .then((blob) => blob.json())
-      .catch(() => {});
+      .catch(() => { });
   };
   const searchTrack = async (search: string): Promise<SpotifySearch> => {
-    return fetch(
-      `${spotifyApiUri}/search?` + `q=${search}&` + `type=track&` + `limit=1`,
+    const response = await fetch(
+      `${spotifyApiUri}/search?q=${encodeURIComponent(search)}&type=track&limit=1`,
       { headers: await getAuthHeader() }
-    ).then((blob) => blob.json());
+    );
+    if (!response.ok) {
+      console.error(`Erreur HTTP ${response.status}: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error(errorText);
+      throw new Error(`Fetch échoué avec le code ${response.status}`);
+    }
+    const data = await response.json();
+    return data as SpotifySearch;
   };
 
   const addQueue = async (search: string): Promise<SpotifyTrack> => {
     let find: SpotifyTrack;
-  
     try {
-      const url = new URL(search);
+      const url = new URL(search)
       const trackId = url.pathname.replace("/track/");
-      find = await fetch(`${spotifyApiUri}/tracks/${trackId}`, {
+      find = await (fetch(`${spotifyApiUri}/tracks/${trackId}`, {
         headers: await getAuthHeader(),
         method: "POST",
-      }).then((blob) => blob.json());
+      }).then((blob) => blob.json())) as unknown as SpotifyTrack;
     } catch (e) {
       const track = await searchTrack(search);
       if (!(track.tracks && track.tracks.items.length)) {
@@ -175,5 +184,6 @@ export async function spotifyInit(): Promise<SpotifyInstance> {
     });
     return find;
   };
+  // return { getCurrentPlay, skipPlayer, addQueue };
   return { getCurrentPlay, skipPlayer, addQueue };
 }

@@ -17,7 +17,7 @@ export function parseEmotePositions(text, emoteOffsets) {
             position: start,
             length: end - start + 1,
             id: emote,
-            name
+            name,
         };
     }))
         .sort((a, b) => a.position - b.position);
@@ -41,7 +41,7 @@ export function findCheermotePositions(text, names) {
                 name,
                 amount,
                 position: utf8Length(text.slice(0, match.index)),
-                length: match[0].length
+                length: match[0].length,
             });
         }
     }
@@ -61,8 +61,8 @@ export function fillTextPositions(text, otherPositions) {
                 type: 'text',
                 position: 0,
                 length: messageLength,
-                text: text
-            }
+                text,
+            },
         ];
     }
     const result = [];
@@ -73,7 +73,7 @@ export function fillTextPositions(text, otherPositions) {
                 type: 'text',
                 position: currentPosition,
                 length: token.position - currentPosition,
-                text: utf8Substring(text, currentPosition, token.position)
+                text: utf8Substring(text, currentPosition, token.position),
             });
         }
         result.push(token);
@@ -84,7 +84,7 @@ export function fillTextPositions(text, otherPositions) {
             type: 'text',
             position: currentPosition,
             length: messageLength - currentPosition,
-            text: utf8Substring(text, currentPosition)
+            text: utf8Substring(text, currentPosition),
         });
     }
     return result;

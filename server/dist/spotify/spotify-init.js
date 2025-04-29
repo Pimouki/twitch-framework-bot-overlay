@@ -4,7 +4,7 @@ exports.spotifyInit = exports.refreshToken = exports.getAuthHeader = exports.set
 const configs_1 = require("../configs");
 const fs_1 = require("fs");
 const crypto = require("node:crypto");
-const URL = require("node:url");
+const { URL } = require("node:url");
 const open = require("open");
 let _spotifyCode;
 const spotifyAccountUri = "https://accounts.spotify.com";
@@ -19,6 +19,7 @@ async function getToken() {
     }));
 }
 async function saveToken(token) {
+    token.obtained_at = Date.now();
     return await fs_1.promises.writeFile(`./${configs_1.STORAGE_FOLDER}/spotify_token.json`, JSON.stringify(token, null, 4), "utf-8");
 }
 const getSpotifyCode = () => new Promise((resolve) => {
@@ -62,7 +63,8 @@ async function refreshToken(token) {
     })
         .then((blob) => blob.json())
         .catch((err) => console.log(err));
-    await saveToken({ ...token, ...refreshToken });
+    token.access_token = refreshToken.access_token;
+    await saveToken(token);
 }
 exports.refreshToken = refreshToken;
 async function spotifyInit() {
@@ -82,7 +84,7 @@ async function spotifyInit() {
             `state=${state}`);
         console.log("waiting for spotify authentification");
         const code = await getSpotifyCode();
-        token = await fetch(`${spotifyAccountUri}/api/token`, {
+        token = await (fetch(`${spotifyAccountUri}/api/token`, {
             method: "POST",
             body: makeFormBody({
                 grant_type: "authorization_code",
@@ -97,7 +99,7 @@ async function spotifyInit() {
             },
         })
             .then((blob) => blob.json())
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)));
         await saveToken(token);
     }
     console.log("Spotify success authentification");
@@ -105,13 +107,13 @@ async function spotifyInit() {
         console.log("Spotify refresh token");
         await refreshToken(await getToken());
     }, 3500 * 1000);
-    const getCurrentPlay = async () => {
-        return fetch(`${spotifyApiUri}/me/player/currently-playing`, {
+    const getCurrentPlay = (async () => {
+        return (fetch(`${spotifyApiUri}/me/player/currently-playing`, {
             headers: await getAuthHeader(),
-        }).then((blob) => blob.json());
-    };
+        }).then((blob) => blob.json()));
+    });
     const skipPlayer = async () => {
-        return fetch(`${spotifyApiUri}/me/player/next`, {
+        fetch(`${spotifyApiUri}/me/player/next`, {
             headers: await getAuthHeader(),
             method: "POST",
         })
@@ -119,17 +121,25 @@ async function spotifyInit() {
             .catch(() => { });
     };
     const searchTrack = async (search) => {
-        return fetch(`${spotifyApiUri}/search?` + `q=${search}&` + `type=track&` + `limit=1`, { headers: await getAuthHeader() }).then((blob) => blob.json());
+        const response = await fetch(`${spotifyApiUri}/search?q=${encodeURIComponent(search)}&type=track&limit=1`, { headers: await getAuthHeader() });
+        if (!response.ok) {
+            console.error(`Erreur HTTP ${response.status}: ${response.statusText}`);
+            const errorText = await response.text();
+            console.error(errorText);
+            throw new Error(`Fetch échoué avec le code ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
     };
     const addQueue = async (search) => {
         let find;
         try {
             const url = new URL(search);
             const trackId = url.pathname.replace("/track/");
-            find = await fetch(`${spotifyApiUri}/tracks/${trackId}`, {
+            find = await (fetch(`${spotifyApiUri}/tracks/${trackId}`, {
                 headers: await getAuthHeader(),
                 method: "POST",
-            }).then((blob) => blob.json());
+            }).then((blob) => blob.json()));
         }
         catch (e) {
             const track = await searchTrack(search);
@@ -147,6 +157,7 @@ async function spotifyInit() {
         });
         return find;
     };
+    // return { getCurrentPlay, skipPlayer, addQueue };
     return { getCurrentPlay, skipPlayer, addQueue };
 }
 exports.spotifyInit = spotifyInit;

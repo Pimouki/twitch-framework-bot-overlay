@@ -71,6 +71,14 @@ export declare class ChatMessage extends MessageTypes.Commands.PrivateMessage {
      */
     get parentMessageUserDisplayName(): string | null;
     /**
+     * The ID of the message that is the thread starter of this message, or `null` if it's not a reply.
+     */
+    get threadMessageId(): string | null;
+    /**
+     * The ID of the user that wrote the thread starter message of this message, or `null` if it's not a reply.
+     */
+    get threadMessageUserId(): string | null;
+    /**
      * The number of bits cheered with the message.
      */
     get bits(): number;
@@ -78,5 +86,48 @@ export declare class ChatMessage extends MessageTypes.Commands.PrivateMessage {
      * The offsets of emote usages in the message.
      */
     get emoteOffsets(): Map<string, string[]>;
+    /**
+     * Whether the message is a Hype Chat.
+     */
+    get isHypeChat(): boolean;
+    /**
+     * The amount of money that was sent for Hype Chat, specified in the currency’s minor unit,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, the minor units for USD is cents, so if the amount is $5.50 USD, `value` is set to 550.
+     */
+    get hypeChatAmount(): number | null;
+    /**
+     * The number of decimal places used by the currency used for Hype Chat,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, USD uses two decimal places.
+     * Use this number to translate `hypeChatAmount` from minor units to major units by using the formula:
+     *
+     * `value / 10^decimalPlaces`
+     */
+    get hypeChatDecimalPlaces(): number | null;
+    /**
+     * The localized amount of money sent for Hype Chat, based on the value and the decimal places of the currency,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, the minor units for USD is cents which uses two decimal places,
+     * so if `value` is 550, `localizedValue` is set to 5.50.
+     */
+    get hypeChatLocalizedAmount(): number | null;
+    /**
+     * The ISO-4217 three-letter currency code that identifies the currency used for Hype Chat,
+     * or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatCurrency(): string | null;
+    /**
+     * The level of the Hype Chat, or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatLevel(): number | null;
+    /**
+     * Whether the system filled in the message for the Hype Chat (because the user didn't type one),
+     * or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatIsSystemMessage(): boolean | null;
 }
 //# sourceMappingURL=ChatMessage.d.ts.map

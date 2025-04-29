@@ -1,6 +1,6 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixPaginatedSubscriptionsResult } from '../../interfaces/endpoints/subscription.input';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixPaginatedSubscriptionsRequest } from './HelixPaginatedSubscriptionsRequest';
 import { HelixSubscription } from './HelixSubscription';

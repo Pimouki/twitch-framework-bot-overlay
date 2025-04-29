@@ -2,7 +2,7 @@ import { __decorate } from "tslib";
 import { createBroadcasterQuery, HttpStatusCodeError } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
 import { createChannelUsersCheckQuery } from "../../interfaces/endpoints/generic.external.mjs";
-import { createSubscriptionCheckQuery } from "../../interfaces/endpoints/subscription.external.mjs";
+import { createSubscriptionCheckQuery, } from "../../interfaces/endpoints/subscription.external.mjs";
 import { createPaginatedResultWithTotal } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
 import { BaseApi } from "../BaseApi.mjs";
@@ -40,12 +40,12 @@ let HelixSubscriptionApi = class HelixSubscriptionApi extends BaseApi {
             userId: extractUserId(broadcaster),
             query: {
                 ...createBroadcasterQuery(broadcaster),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return {
             ...createPaginatedResultWithTotal(result, HelixSubscription, this._client),
-            points: result.points
+            points: result.points,
         };
     }
     /**
@@ -68,7 +68,7 @@ let HelixSubscriptionApi = class HelixSubscriptionApi extends BaseApi {
             url: 'subscriptions',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:subscriptions'],
-            query: createChannelUsersCheckQuery(broadcaster, users)
+            query: createChannelUsersCheckQuery(broadcaster, users),
         });
         return result.data.map(data => new HelixSubscription(data, this._client));
     }
@@ -101,7 +101,7 @@ let HelixSubscriptionApi = class HelixSubscriptionApi extends BaseApi {
                 url: 'subscriptions/user',
                 userId: extractUserId(user),
                 scopes: ['user:read:subscriptions'],
-                query: createSubscriptionCheckQuery(broadcaster, user)
+                query: createSubscriptionCheckQuery(broadcaster, user),
             });
             return new HelixUserSubscription(result.data[0], this._client);
         }

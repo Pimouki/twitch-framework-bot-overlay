@@ -1,4 +1,4 @@
-import { ChatClient, PrivateMessage } from "@twurple/chat";
+import { ChatClient, ChatMessage } from "@twurple/chat";
 import { ApiClient } from "@twurple/api";
 import { Server, Socket } from "socket.io";
 import {
@@ -51,7 +51,7 @@ export type CommandListener = (data: {
   user: string;
   command: string;
   userId: string;
-  meta: PrivateMessage;
+  meta: ChatMessage;
   args: string[];
   chatBotClient: ChatClient;
   chatBroadcasterClient: ChatClient;

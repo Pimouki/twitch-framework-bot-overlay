@@ -40,12 +40,12 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(broadcaster),
             query: {
                 ...(0, schedule_external_1.createScheduleQuery)(broadcaster, filter),
-                ...(0, HelixPagination_1.createPaginationQuery)(filter)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(filter),
+            },
         });
         return {
             data: new HelixSchedule_1.HelixSchedule(result.data, this._client),
-            cursor: result.pagination.cursor
+            cursor: result.pagination.cursor,
         };
     }
     /**
@@ -71,7 +71,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             type: 'helix',
             url: 'schedule',
             userId: (0, common_1.extractUserId)(broadcaster),
-            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, ids)
+            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, ids),
         });
         return (_b = (_a = result.data.segments) === null || _a === void 0 ? void 0 : _a.map(data => new HelixScheduleSegment_1.HelixScheduleSegment(data, this._client))) !== null && _b !== void 0 ? _b : [];
     }
@@ -94,7 +94,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
         return await this._client.callApi({
             type: 'helix',
             url: 'schedule/icalendar',
-            query: (0, api_call_1.createBroadcasterQuery)(broadcaster)
+            query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
         });
     }
     /**
@@ -112,7 +112,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             method: 'PATCH',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:schedule'],
-            query: (0, schedule_external_1.createScheduleSettingsUpdateQuery)(broadcaster, settings)
+            query: (0, schedule_external_1.createScheduleSettingsUpdateQuery)(broadcaster, settings),
         });
     }
     /**
@@ -131,7 +131,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:schedule'],
             query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
-            jsonBody: (0, schedule_external_1.createScheduleSegmentBody)(data)
+            jsonBody: (0, schedule_external_1.createScheduleSegmentBody)(data),
         });
         return new HelixScheduleSegment_1.HelixScheduleSegment(result.data.segments[0], this._client);
     }
@@ -152,7 +152,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:schedule'],
             query: (0, schedule_external_1.createScheduleSegmentModifyQuery)(broadcaster, segmentId),
-            jsonBody: (0, schedule_external_1.createScheduleSegmentUpdateBody)(data)
+            jsonBody: (0, schedule_external_1.createScheduleSegmentUpdateBody)(data),
         });
         return new HelixScheduleSegment_1.HelixScheduleSegment(result.data.segments[0], this._client);
     }
@@ -169,7 +169,7 @@ class HelixScheduleApi extends BaseApi_1.BaseApi {
             method: 'DELETE',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:schedule'],
-            query: (0, schedule_external_1.createScheduleSegmentModifyQuery)(broadcaster, segmentId)
+            query: (0, schedule_external_1.createScheduleSegmentModifyQuery)(broadcaster, segmentId),
         });
     }
 }

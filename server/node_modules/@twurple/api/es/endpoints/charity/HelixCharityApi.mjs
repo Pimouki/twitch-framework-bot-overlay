@@ -34,7 +34,7 @@ let HelixCharityApi = class HelixCharityApi extends BaseApi {
             method: 'GET',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:charity'],
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return new HelixCharityCampaign(response.data[0], this._client);
     }
@@ -54,8 +54,8 @@ let HelixCharityApi = class HelixCharityApi extends BaseApi {
             scopes: ['channel:read:charity'],
             query: {
                 ...createBroadcasterQuery(broadcaster),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResult(response, HelixCharityCampaignDonation, this._client);
     }

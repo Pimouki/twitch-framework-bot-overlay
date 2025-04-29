@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpotifyRewardCommands = void 0;
 const SpotifyRewardCommands = async ({ channel, rewardTitle, rewardId, user, userId, message, chatBotClient, chatBroadcasterClient, apiClient, apiBotClient, socket, obs, spotify, }) => {
-    console.log(rewardId);
     if (rewardId !== "6ccd6826-ebbf-4813-8076-0370c0115d88") {
         return false;
     }

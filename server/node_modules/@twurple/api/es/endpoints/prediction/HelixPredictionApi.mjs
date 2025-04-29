@@ -2,7 +2,7 @@ import { __decorate } from "tslib";
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
 import { createGetByIdsQuery } from "../../interfaces/endpoints/generic.external.mjs";
-import { createEndPredictionBody, createPredictionBody } from "../../interfaces/endpoints/prediction.external.mjs";
+import { createEndPredictionBody, createPredictionBody, } from "../../interfaces/endpoints/prediction.external.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { createPaginatedResult } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
@@ -39,8 +39,8 @@ let HelixPredictionApi = class HelixPredictionApi extends BaseApi {
             scopes: ['channel:read:predictions'],
             query: {
                 ...createBroadcasterQuery(broadcaster),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResult(result, HelixPrediction, this._client);
     }
@@ -54,7 +54,7 @@ let HelixPredictionApi = class HelixPredictionApi extends BaseApi {
             url: 'predictions',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:predictions'],
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         }, this._client, data => new HelixPrediction(data, this._client), 20);
     }
     /**
@@ -72,7 +72,7 @@ let HelixPredictionApi = class HelixPredictionApi extends BaseApi {
             url: 'predictions',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:predictions'],
-            query: createGetByIdsQuery(broadcaster, ids)
+            query: createGetByIdsQuery(broadcaster, ids),
         });
         return result.data.map(data => new HelixPrediction(data, this._client));
     }
@@ -101,7 +101,7 @@ let HelixPredictionApi = class HelixPredictionApi extends BaseApi {
             method: 'POST',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:predictions'],
-            jsonBody: createPredictionBody(broadcaster, data)
+            jsonBody: createPredictionBody(broadcaster, data),
         });
         return new HelixPrediction(result.data[0], this._client);
     }
@@ -140,7 +140,7 @@ let HelixPredictionApi = class HelixPredictionApi extends BaseApi {
             method: 'PATCH',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:predictions'],
-            jsonBody: createEndPredictionBody(broadcaster, id, status, outcomeId)
+            jsonBody: createEndPredictionBody(broadcaster, id, status, outcomeId),
         });
         return new HelixPrediction(result.data[0], this._client);
     }

@@ -1,7 +1,7 @@
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId } from '@twurple/common';
 import { createGetByIdsQuery } from "../../interfaces/endpoints/generic.external.mjs";
-import { createScheduleQuery, createScheduleSegmentBody, createScheduleSegmentModifyQuery, createScheduleSegmentUpdateBody, createScheduleSettingsUpdateQuery } from "../../interfaces/endpoints/schedule.external.mjs";
+import { createScheduleQuery, createScheduleSegmentBody, createScheduleSegmentModifyQuery, createScheduleSegmentUpdateBody, createScheduleSettingsUpdateQuery, } from "../../interfaces/endpoints/schedule.external.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
 import { BaseApi } from "../BaseApi.mjs";
 import { HelixPaginatedScheduleSegmentRequest } from "./HelixPaginatedScheduleSegmentRequest.mjs";
@@ -37,12 +37,12 @@ export class HelixScheduleApi extends BaseApi {
             userId: extractUserId(broadcaster),
             query: {
                 ...createScheduleQuery(broadcaster, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return {
             data: new HelixSchedule(result.data, this._client),
-            cursor: result.pagination.cursor
+            cursor: result.pagination.cursor,
         };
     }
     /**
@@ -68,7 +68,7 @@ export class HelixScheduleApi extends BaseApi {
             type: 'helix',
             url: 'schedule',
             userId: extractUserId(broadcaster),
-            query: createGetByIdsQuery(broadcaster, ids)
+            query: createGetByIdsQuery(broadcaster, ids),
         });
         return (_b = (_a = result.data.segments) === null || _a === void 0 ? void 0 : _a.map(data => new HelixScheduleSegment(data, this._client))) !== null && _b !== void 0 ? _b : [];
     }
@@ -91,7 +91,7 @@ export class HelixScheduleApi extends BaseApi {
         return await this._client.callApi({
             type: 'helix',
             url: 'schedule/icalendar',
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
     }
     /**
@@ -109,7 +109,7 @@ export class HelixScheduleApi extends BaseApi {
             method: 'PATCH',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:schedule'],
-            query: createScheduleSettingsUpdateQuery(broadcaster, settings)
+            query: createScheduleSettingsUpdateQuery(broadcaster, settings),
         });
     }
     /**
@@ -128,7 +128,7 @@ export class HelixScheduleApi extends BaseApi {
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:schedule'],
             query: createBroadcasterQuery(broadcaster),
-            jsonBody: createScheduleSegmentBody(data)
+            jsonBody: createScheduleSegmentBody(data),
         });
         return new HelixScheduleSegment(result.data.segments[0], this._client);
     }
@@ -149,7 +149,7 @@ export class HelixScheduleApi extends BaseApi {
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:schedule'],
             query: createScheduleSegmentModifyQuery(broadcaster, segmentId),
-            jsonBody: createScheduleSegmentUpdateBody(data)
+            jsonBody: createScheduleSegmentUpdateBody(data),
         });
         return new HelixScheduleSegment(result.data.segments[0], this._client);
     }
@@ -166,7 +166,7 @@ export class HelixScheduleApi extends BaseApi {
             method: 'DELETE',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:schedule'],
-            query: createScheduleSegmentModifyQuery(broadcaster, segmentId)
+            query: createScheduleSegmentModifyQuery(broadcaster, segmentId),
         });
     }
 }

@@ -2,7 +2,7 @@ import { __decorate } from "tslib";
 import { mapOptional } from '@d-fischer/shared-utils';
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
-import { createBitsLeaderboardQuery } from "../../interfaces/endpoints/bits.external.mjs";
+import { createBitsLeaderboardQuery, } from "../../interfaces/endpoints/bits.external.mjs";
 import { BaseApi } from "../BaseApi.mjs";
 import { HelixBitsLeaderboard } from "./HelixBitsLeaderboard.mjs";
 import { HelixCheermoteList } from "./HelixCheermoteList.mjs";
@@ -34,7 +34,7 @@ let HelixBitsApi = class HelixBitsApi extends BaseApi {
             url: 'bits/leaderboard',
             userId: extractUserId(broadcaster),
             scopes: ['bits:read'],
-            query: createBitsLeaderboardQuery(params)
+            query: createBitsLeaderboardQuery(params),
         });
         return new HelixBitsLeaderboard(result, this._client);
     }
@@ -50,7 +50,7 @@ let HelixBitsApi = class HelixBitsApi extends BaseApi {
             type: 'helix',
             url: 'bits/cheermotes',
             userId: mapOptional(broadcaster, extractUserId),
-            query: mapOptional(broadcaster, createBroadcasterQuery)
+            query: mapOptional(broadcaster, createBroadcasterQuery),
         });
         return new HelixCheermoteList(result.data);
     }

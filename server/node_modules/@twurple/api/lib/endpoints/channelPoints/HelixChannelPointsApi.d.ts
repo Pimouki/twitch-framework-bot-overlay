@@ -1,8 +1,8 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixCustomRewardRedemptionData, type HelixCustomRewardRedemptionStatus, type HelixCustomRewardRedemptionTargetStatus } from '../../interfaces/endpoints/channelPoints.external';
 import { type HelixCreateCustomRewardData, type HelixCustomRewardRedemptionFilter, type HelixPaginatedCustomRewardRedemptionFilter, type HelixUpdateCustomRewardData } from '../../interfaces/endpoints/channelPoints.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
 import { BaseApi } from '../BaseApi';
 import { HelixCustomReward } from './HelixCustomReward';
 import { HelixCustomRewardRedemption } from './HelixCustomRewardRedemption';

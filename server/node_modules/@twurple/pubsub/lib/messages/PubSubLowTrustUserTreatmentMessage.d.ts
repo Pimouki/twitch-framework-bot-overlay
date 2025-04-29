@@ -1,6 +1,6 @@
 import { DataObject } from '@twurple/common';
-import { type PubSubLowTrustUserTreatmentMessageData } from './PubSubLowTrustUserTreatmentMessage.external';
 import { type PubSubLowTrustUserBanEvasionEvaluationType, type PubSubLowTrustUserTreatmentType, type PubSubLowTrustUserType } from './common/PubSubLowTrustUserContentBase.external';
+import { type PubSubLowTrustUserTreatmentMessageData } from './PubSubLowTrustUserTreatmentMessage.external';
 /**
  * A message that informs about treatment against a low-trust user.
  */

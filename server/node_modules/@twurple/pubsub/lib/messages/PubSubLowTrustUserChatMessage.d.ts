@@ -1,6 +1,6 @@
 import { DataObject } from '@twurple/common';
-import { type PubSubLowTrustUserChatMessageData, type PubSubLowTrustUserChatMessageContentFragmentData } from './PubSubLowTrustUserChatMessage.external';
 import { type PubSubLowTrustUserBanEvasionEvaluationType, type PubSubLowTrustUserTreatmentType, type PubSubLowTrustUserType } from './common/PubSubLowTrustUserContentBase.external';
+import { type PubSubLowTrustUserChatMessageContentFragmentData, type PubSubLowTrustUserChatMessageData } from './PubSubLowTrustUserChatMessage.external';
 /**
  * A message that informs about a new chat message from a low-trust user.
  */

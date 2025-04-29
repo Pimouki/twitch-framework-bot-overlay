@@ -3,8 +3,8 @@ import { type HelixChannelReferenceData } from '../../interfaces/endpoints/chann
 import { type HelixExtensionTransactionData } from '../../interfaces/endpoints/extensions.external';
 import { type HelixExtensionBitsProductUpdatePayload, type HelixExtensionTransactionsFilter, type HelixExtensionTransactionsPaginatedFilter } from '../../interfaces/endpoints/extensions.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixChannelReference } from '../channel/HelixChannelReference';
 import { HelixExtensionBitsProduct } from './HelixExtensionBitsProduct';

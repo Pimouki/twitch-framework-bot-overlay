@@ -1,8 +1,11 @@
 import { __decorate } from "tslib";
+import { mapNullable } from '@d-fischer/shared-utils';
 import { rtfm } from '@twurple/common';
 import { MessageTypes } from 'ircv3';
 import { ChatUser } from "../ChatUser.mjs";
 import { parseEmoteOffsets } from "../utils/emoteUtil.mjs";
+// yes, this is necessary. pls fix twitch
+const HYPE_CHAT_LEVELS = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN'];
 /**
  * A regular chat message.
  */
@@ -114,6 +117,20 @@ let ChatMessage = class ChatMessage extends MessageTypes.Commands.PrivateMessage
         return (_a = this._tags.get('reply-parent-display-name')) !== null && _a !== void 0 ? _a : null;
     }
     /**
+     * The ID of the message that is the thread starter of this message, or `null` if it's not a reply.
+     */
+    get threadMessageId() {
+        var _a;
+        return (_a = this._tags.get('reply-thread-parent-msg-id')) !== null && _a !== void 0 ? _a : null;
+    }
+    /**
+     * The ID of the user that wrote the thread starter message of this message, or `null` if it's not a reply.
+     */
+    get threadMessageUserId() {
+        var _a;
+        return (_a = this._tags.get('reply-thread-parent-user-id')) !== null && _a !== void 0 ? _a : null;
+    }
+    /**
      * The number of bits cheered with the message.
      */
     get bits() {
@@ -125,6 +142,76 @@ let ChatMessage = class ChatMessage extends MessageTypes.Commands.PrivateMessage
      */
     get emoteOffsets() {
         return parseEmoteOffsets(this._tags.get('emotes'));
+    }
+    /**
+     * Whether the message is a Hype Chat.
+     */
+    get isHypeChat() {
+        return this._tags.has('pinned-chat-paid-amount');
+    }
+    /**
+     * The amount of money that was sent for Hype Chat, specified in the currency’s minor unit,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, the minor units for USD is cents, so if the amount is $5.50 USD, `value` is set to 550.
+     */
+    get hypeChatAmount() {
+        return mapNullable(this._tags.get('pinned-chat-paid-amount'), Number);
+    }
+    /**
+     * The number of decimal places used by the currency used for Hype Chat,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, USD uses two decimal places.
+     * Use this number to translate `hypeChatAmount` from minor units to major units by using the formula:
+     *
+     * `value / 10^decimalPlaces`
+     */
+    get hypeChatDecimalPlaces() {
+        return mapNullable(this._tags.get('pinned-chat-paid-exponent'), Number);
+    }
+    /**
+     * The localized amount of money sent for Hype Chat, based on the value and the decimal places of the currency,
+     * or `null` if the message is not a Hype Chat.
+     *
+     * For example, the minor units for USD is cents which uses two decimal places,
+     * so if `value` is 550, `localizedValue` is set to 5.50.
+     */
+    get hypeChatLocalizedAmount() {
+        const amount = this.hypeChatAmount;
+        if (!amount) {
+            return null;
+        }
+        return amount / 10 ** this.hypeChatDecimalPlaces;
+    }
+    /**
+     * The ISO-4217 three-letter currency code that identifies the currency used for Hype Chat,
+     * or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatCurrency() {
+        var _a;
+        return (_a = this._tags.get('pinned-chat-paid-currency')) !== null && _a !== void 0 ? _a : null;
+    }
+    /**
+     * The level of the Hype Chat, or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatLevel() {
+        const levelString = this._tags.get('pinned-chat-paid-level');
+        if (!levelString) {
+            return null;
+        }
+        return HYPE_CHAT_LEVELS.indexOf(levelString) + 1;
+    }
+    /**
+     * Whether the system filled in the message for the Hype Chat (because the user didn't type one),
+     * or `null` if the message is not a Hype Chat.
+     */
+    get hypeChatIsSystemMessage() {
+        const flagString = this._tags.get('pinned-chat-paid-is-system-message');
+        if (!flagString) {
+            return null;
+        }
+        return Boolean(Number(flagString));
     }
 };
 ChatMessage = __decorate([

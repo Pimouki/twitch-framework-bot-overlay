@@ -39,8 +39,8 @@ class HelixHypeTrainApi extends BaseApi_1.BaseApi {
             scopes: ['channel:read:hype_train'],
             query: {
                 ...(0, api_call_1.createBroadcasterQuery)(broadcaster),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixHypeTrainEvent_1.HelixHypeTrainEvent, this._client);
     }
@@ -54,7 +54,7 @@ class HelixHypeTrainApi extends BaseApi_1.BaseApi {
             url: 'hypetrain/events',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:hype_train'],
-            query: (0, api_call_1.createBroadcasterQuery)(broadcaster)
+            query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
         }, this._client, (data) => new HelixHypeTrainEvent_1.HelixHypeTrainEvent(data, this._client));
     }
 }

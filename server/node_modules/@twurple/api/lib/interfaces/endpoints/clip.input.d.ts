@@ -13,6 +13,12 @@ export interface HelixClipFilter {
      * The latest date to find clips for.
      */
     endDate?: string;
+    /**
+     * The featured flag the results should have.
+     *
+     * If not given, both featured and non-featured clips will be returned.
+     */
+    isFeatured?: boolean;
 }
 /**
  * @inheritDoc

@@ -30,7 +30,7 @@ let HelixTeamApi = class HelixTeamApi extends BaseApi {
             type: 'helix',
             url: 'teams/channel',
             userId: extractUserId(broadcaster),
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return (_b = (_a = result.data) === null || _a === void 0 ? void 0 : _a.map(data => new HelixTeam(data, this._client))) !== null && _b !== void 0 ? _b : [];
     }
@@ -47,8 +47,8 @@ let HelixTeamApi = class HelixTeamApi extends BaseApi {
                 type: 'helix',
                 url: 'teams',
                 query: {
-                    id
-                }
+                    id,
+                },
             });
             return new HelixTeamWithUsers(result.data[0], this._client);
         }
@@ -73,8 +73,8 @@ let HelixTeamApi = class HelixTeamApi extends BaseApi {
                 type: 'helix',
                 url: 'teams',
                 query: {
-                    name
-                }
+                    name,
+                },
             });
             return new HelixTeamWithUsers(result.data[0], this._client);
         }

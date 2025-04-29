@@ -1,4 +1,4 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixCreateScheduleSegmentData, type HelixPaginatedScheduleFilter, type HelixPaginatedScheduleResult, type HelixScheduleFilter, type HelixScheduleSettingsUpdate, type HelixUpdateScheduleSegmentData } from '../../interfaces/endpoints/schedule.input';
 import { BaseApi } from '../BaseApi';
 import { HelixPaginatedScheduleSegmentRequest } from './HelixPaginatedScheduleSegmentRequest';

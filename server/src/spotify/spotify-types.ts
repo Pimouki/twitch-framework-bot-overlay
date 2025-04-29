@@ -141,6 +141,7 @@ export type SpotifyToken = {
   scope: string;
   refresh_token: string;
   expires_in: number;
+  obtained_at: number;
 };
 
 export interface SpotifyTrack {
