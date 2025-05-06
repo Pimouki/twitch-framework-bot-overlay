@@ -2,7 +2,7 @@
 type mediaOption = {
   fileName: string;
   times: number;
-}; 
+};
 
 export type MediasType = "sounds" | "videos";
 export type MediasChoice = { type: MediasType; fileName: string };
@@ -12,11 +12,13 @@ export interface ServerToClientEvents {
   playMultipleSound: (data: MediasChoice[]) => void;
   playVideo: (data: mediaOption) => void;
   playSecret: (data: mediaOption) => void;
+  showCarroue: (data: boolean) => void;
+  launchCarroue: (data: boolean) => void;
   playClip: (data: ClipInfo) => void;
 }
 
-export interface ClientToServerEvents {}
+export interface ClientToServerEvents { }
 
-export interface InterServerEvents {}
+export interface InterServerEvents { }
 
-export interface SocketData {}
+export interface SocketData { }
