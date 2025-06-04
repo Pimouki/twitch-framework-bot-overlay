@@ -15,6 +15,7 @@ export const CoucouRewardCommands: RewardListener = async ({
     obs,
     spotify,
   }) => {
+    console.log(rewardId);
     if(rewardId !== "68497a1b-283b-47c9-be07-25abf4624c9e"){
         return false;
     }

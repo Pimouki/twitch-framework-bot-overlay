@@ -42,7 +42,7 @@ export const HelpCommands: CommandListener = async ({
 }) => {
   // Réponses aléatoires (20% de chance de parler)
   const randomChance = Math.random();
-  if (randomChance < 0.2) {
+  if (randomChance < 0.01) {
     const phrases = [
       "Hihihi.",
       "J'aime les bits.",
@@ -70,27 +70,27 @@ export const HelpCommands: CommandListener = async ({
   }
 
   // Commande "bonjour" (réponse en fonction des messages précédents)
-  if (matchesCommand(command, possibleCommands.bonjour)) {
-    if (recentMessages.length > 0) {
-      const lastMessage = recentMessages[recentMessages.length - 1];
-      const rand = pickRandomOne([
-        `Oh, t'as dit "${lastMessage}" ? C'est adorable ! 😘`,
-        `Tu parles de "${lastMessage}" ? C'est tout à fait mon genre de conversation ! 😉`,
-        `Haha, t'as dit ça : "${lastMessage}". Tu me surprends à chaque fois ! 😏`,
-      ]);
-      await chatBotClient.say(channel, rand);
-    } else {
-      const rand = pickRandomOne([
-        "Oh, je suis toute excitée à l'idée de discuter avec toi ! 😍",
-        "Tu sais que je t'aime bien, hein ? 😘",
-        "Si j'étais un chat, je serais en train de te suivre partout ! 🐾",
-        "T'as pas une idée géniale à partager avec moi ? 😎",
-        "J'espère que tu t'es bien préparé(e) à ma folie ! 🤪",
-        "Alors, qu'est-ce qu'on fait de beau aujourd'hui ? 😏",
-      ]);
-      await chatBotClient.say(channel, rand);
-    }
-  }
+  //if (matchesCommand(command, possibleCommands.bonjour)) {
+    //if (recentMessages.length > 0) {
+      //const lastMessage = recentMessages[recentMessages.length - 1];
+      //const rand = pickRandomOne([
+        //`Oh, t'as dit "${lastMessage}" ? C'est adorable ! 😘`,
+        //`Tu parles de "${lastMessage}" ? C'est tout à fait mon genre de conversation ! 😉`,
+        //`Haha, t'as dit ça : "${lastMessage}". Tu me surprends à chaque fois ! 😏`,
+      //]);
+      //await chatBotClient.say(channel, rand);
+    //} else {
+      //const rand = pickRandomOne([
+        //"Oh, je suis toute excitée à l'idée de discuter avec toi ! 😍",
+        //"Tu sais que je t'aime bien, hein ? 😘",
+        //"Si j'étais un chat, je serais en train de te suivre partout ! 🐾",
+        //"T'as pas une idée géniale à partager avec moi ? 😎",
+        //"J'espère que tu t'es bien préparé(e) à ma folie ! 🤪",
+        //"Alors, qu'est-ce qu'on fait de beau aujourd'hui ? 😏",
+      //]);
+      //await chatBotClient.say(channel, rand);
+    //}
+  //}
 
   // Ajouter le message actuel à l'historique
   addMessageToHistory(command);

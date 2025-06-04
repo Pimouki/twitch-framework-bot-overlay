@@ -6,7 +6,7 @@ export const CarroueReward: RewardListener = async function ({
   socket,
   user,
 }) {
-  if (rewardId === "e45f6a0b-1feb-4d86-9064-6e695ee8e1c8") {
+  if (rewardId === "d1bc0a5c-350f-4d56-aebb-ea6066ad306a") {
     socket.emit("playVideo", {
       fileName: `tourne.mp4`,
       times: 1,
